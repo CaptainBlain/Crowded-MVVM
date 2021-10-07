@@ -13,23 +13,16 @@ class MainViewController: UIViewController {
     
     private let viewModel = BusinessViewModel()
     
-    private var cities = [City]()
     private var currentCity = ""
     private var businesses = [Business]()
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-
-        //Fetch the bussinesses
+        //Bind the view model
         bind(to: viewModel)
-        viewModel.fetchBusinesses(in: nil)
     }
     
     func bind(to businessViewModel: BusinessViewModel) {
-        businessViewModel.cities.bind { [weak self] cities in
-            self?.cities = cities
-        }
         businessViewModel.selectedCity.bind { [weak self] city in
             self?.currentCity = city
             self?.reloadData()
@@ -120,6 +113,7 @@ extension MainViewController: UICollectionViewDelegate {
 }
 
 extension MainViewController: CitySelectDelegate {
+    
     func citySelectViewController(_ citySelectViewController: CitySelectViewController, didSelect city: City) {
         viewModel.fetchBusinesses(in: city)
     }
